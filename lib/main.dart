@@ -7,16 +7,20 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Curious Connect',
-      theme: ThemeData(
-
-        primarySwatch: Colors.blue,
-      ),
-      home: Scaffold(
-        appBar: AppBar(title: Text("Curious Connect"),),
-      ),
+    return FutureBuilder(
+      builder: (context, snapshot) {
+        return MaterialApp(
+          title: 'Curious Connect',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          home: Scaffold(
+            appBar: AppBar(
+              title: Text("Curious Connect"),
+            ),
+          ),
+        );
+      },
     );
   }
 }
-
