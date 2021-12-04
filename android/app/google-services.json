@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "24136646277",
+    "project_id": "curious-connect",
+    "storage_bucket": "curious-connect.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:24136646277:android:01d231c775ad7feaaff3ec",
+        "android_client_info": {
+          "package_name": "com.cruxifixur.curious_connect"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "24136646277-2n55rt7bbq7t8bg3lbqh1e79cp4ki7nv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4ChMuLzedF1EgZNVJ_tDWvhXQgYxnSAE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "24136646277-2n55rt7bbq7t8bg3lbqh1e79cp4ki7nv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
