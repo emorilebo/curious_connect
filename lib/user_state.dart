@@ -30,7 +30,11 @@ class UserState extends StatelessWidget {
             ),
           );
         }
-        return Scaffold();
+        return Scaffold(
+          body: Center(
+            child: Text("Something went wrong"),
+          ),
+        );
       },
     );
   }
