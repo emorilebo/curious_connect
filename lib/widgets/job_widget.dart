@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:linkedin_clone/jobs/job_details.dart';
+import 'package:linkedin_clone/services/global_methods.dart';
 
 class JobWidget extends StatefulWidget {
   final String taskTitle;
@@ -44,7 +47,7 @@ class _JobWidgetState extends State<JobWidget> {
                   builder: (context) => JobDetailScreen(
                       uploadedBy: widget.uploadBy, taskID: widget.taskId)));
         },
-        onLongPress: () {},
+        onLongPress: _deleteDialog,
         contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         leading: Container(
           padding: EdgeInsets.only(right: 12),
@@ -98,6 +101,57 @@ class _JobWidgetState extends State<JobWidget> {
           color: Colors.grey,
         ),
       ),
+    );
+  }
+
+  _deleteDialog() {
+    User? user = _auth.currentUser;
+    final _uid = user!.uid;
+    showDialog(
+      context: context,
+      builder: (ctx) {
+        return AlertDialog(
+          actions: [
+            TextButton(
+              onPressed: () async {
+                try {
+                  if (widget.uploadBy == _uid) {
+                    await FirebaseFirestore.instance
+                        .collection('tasks')
+                        .doc(widget.taskId)
+                        .delete();
+                    await Fluttertoast.showToast(
+                        msg: "Task has been deleted",
+                        toastLength: Toast.LENGTH_LONG,
+                        backgroundColor: Colors.grey,
+                        fontSize: 18.0);
+                    Navigator.canPop(ctx) ? Navigator.pop(ctx) : null;
+                  } else {
+                    GlobalMethod.showErrorDialog(
+                        error: "You cannot perform this action", ctx: ctx);
+                  }
+                } catch (error) {
+                  GlobalMethod.showErrorDialog(
+                      error: "this task can't be deleted", ctx: context);
+                } finally {}
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.delete,
+                    color: Colors.red,
+                  ),
+                  Text(
+                    "Delete",
+                    style: TextStyle(color: Colors.red),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }
