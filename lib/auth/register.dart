@@ -14,7 +14,7 @@ class SignUp extends StatefulWidget {
   _SignUpState createState() => _SignUpState();
 }
 
-class _SignUpState extends State<SignUp> {
+class _SignUpState extends State<SignUp> with TickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _animation;
   late TextEditingController _fullNameController =
