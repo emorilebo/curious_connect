@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:linkedin_clone/services/global_variables.dart';
 
 class SignUp extends StatefulWidget {
@@ -80,7 +82,9 @@ class _SignUpState extends State<SignUp> {
                     child: Column(
                       children: [
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            _showImageDialog();
+                          },
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
@@ -324,6 +328,14 @@ class _SignUpState extends State<SignUp> {
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16),
                                 ),
+                                TextSpan(text: '     '),
+                                TextSpan(
+                                  text: 'Login here',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16),
+                                ),
                               ],
                             ),
                           ),
@@ -338,5 +350,94 @@ class _SignUpState extends State<SignUp> {
         ],
       ),
     );
+  }
+
+  void _showImageDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Please choose an option"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              InkWell(
+                onTap: () {
+                  _getFromCamera();
+                },
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(4.0),
+                      child: Icon(
+                        Icons.camera,
+                        color: Colors.purple,
+                      ),
+                    ),
+                    Text(
+                      'Camera',
+                      style: TextStyle(color: Colors.purple),
+                    ),
+                  ],
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  _getFromGallery();
+                },
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(4.0),
+                      child: Icon(
+                        Icons.image,
+                        color: Colors.purple,
+                      ),
+                    ),
+                    Text(
+                      'Gallery',
+                      style: TextStyle(color: Colors.purple),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void _getFromGallery() async {
+    PickedFile? pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+      maxHeight: 1080,
+      maxWidth: 1080,
+    );
+    _cropImage(pickedFile!.path);
+    Navigator.pop(context);
+  }
+
+  void _getFromCamera() async {
+    PickedFile? pickedFile = await ImagePicker().getImage(
+      source: ImageSource.camera,
+      maxHeight: 1080,
+      maxWidth: 1080,
+    );
+    _cropImage(pickedFile!.path);
+    Navigator.pop(context);
+  }
+
+  void _cropImage(filePath) async {
+    File? croppedImage = await ImageCropper.cropImage(
+      sourcePath: filePath,
+      maxHeight: 1080,
+      maxWidth: 1080,
+    );
+    if (croppedImage != null) {
+      setState(() {
+        imageFile = croppedImage;
+      });
+    }
   }
 }
