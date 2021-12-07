@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:linkedin_clone/jobs/job_details.dart';
 
 class JobWidget extends StatefulWidget {
   final String taskTitle;
@@ -36,7 +37,23 @@ class _JobWidgetState extends State<JobWidget> {
       elevation: 8,
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       child: ListTile(
-        onTap: () {},
+        onTap: () {
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => JobDetailScreen(
+                      uploadedBy: widget.uploadBy, taskID: widget.taskId)));
+        },
+        onLongPress: () {},
+        contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        leading: Container(
+          padding: EdgeInsets.only(right: 12),
+          decoration: BoxDecoration(
+            border: Border(
+              right: BorderSide(width: 1),
+            ),
+          ),
+        ),
       ),
     );
   }
