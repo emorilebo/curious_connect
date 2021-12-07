@@ -53,6 +53,49 @@ class _JobWidgetState extends State<JobWidget> {
               right: BorderSide(width: 1),
             ),
           ),
+          child: Image.network(widget.userImage),
+        ),
+        title: Text(
+          widget.taskTitle,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text(
+              widget.name,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                color: Colors.grey,
+              ),
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            Text(
+              widget.taskDescription,
+              maxLines: 4,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.grey[600],
+              ),
+            ),
+          ],
+        ),
+        trailing: Icon(
+          Icons.keyboard_arrow_right,
+          size: 30,
+          color: Colors.grey,
         ),
       ),
     );
