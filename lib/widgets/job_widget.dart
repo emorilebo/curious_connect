@@ -47,7 +47,7 @@ class _JobWidgetState extends State<JobWidget> {
                   builder: (context) => JobDetailScreen(
                       uploadedBy: widget.uploadBy, taskID: widget.taskId)));
         },
-        onLongPress: _deleteDialog,
+        onLongPress: _deleteDialog(),
         contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         leading: Container(
           padding: EdgeInsets.only(right: 12),
