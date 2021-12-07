@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -322,7 +323,7 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        "SignUp",
+                                        "Sign Up",
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold,
@@ -347,8 +348,12 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin {
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16),
                                 ),
-                                TextSpan(text: '     '),
+                                TextSpan(text: '   '),
                                 TextSpan(
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () => Navigator.canPop(context)
+                                        ? Navigator.pop(context)
+                                        : null,
                                   text: 'Login here',
                                   style: TextStyle(
                                       color: Colors.white,

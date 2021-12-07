@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:linkedin_clone/auth/login.dart';
 import 'package:linkedin_clone/jobs/jobs_screen.dart';
 
-import 'auth/register.dart';
-
 class UserState extends StatelessWidget {
   const UserState({Key? key}) : super(key: key);
 
@@ -15,7 +13,7 @@ class UserState extends StatelessWidget {
       builder: (ctx, userSnapshot) {
         if (userSnapshot.data == null) {
           print('user is not logged in yet');
-          return SignUp();
+          return Login();
         } else if (userSnapshot.hasData) {
           print("user is already logged in");
           return JobScreen();
