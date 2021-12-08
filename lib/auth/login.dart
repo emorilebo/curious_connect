@@ -4,6 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:linkedin_clone/auth/forget_pass.dart';
 import 'package:linkedin_clone/auth/register.dart';
+import 'package:linkedin_clone/services/global_methods.dart';
 import 'package:linkedin_clone/services/global_variables.dart';
 
 class Login extends StatefulWidget {
@@ -35,6 +36,28 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
     _passTextController.dispose();
     _passFocusNode.dispose();
     super.dispose();
+  }
+
+  void _submitFormOnLogin() async {
+    final isValid = _loginFormKey.currentState!.validate();
+    if (isValid) {
+      setState(() {
+        _isLoading = true;
+      });
+      try {
+        await _auth.signInWithEmailAndPassword(
+          email: _emailTextController.text.trim().toLowerCase(),
+          password: _passTextController.text.trim(),
+        );
+        Navigator.canPop(context) ? Navigator.pop(context) : null;
+      } catch (error) {
+        setState(() {
+          _isLoading = false;
+        });
+        GlobalMethod.showErrorDialog(error: error.toString(), ctx: context);
+        print("error occurred $error");
+      }
+    }
   }
 
   @override
