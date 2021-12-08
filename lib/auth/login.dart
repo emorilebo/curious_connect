@@ -38,6 +38,25 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
     super.dispose();
   }
 
+  @override
+  void initState() {
+    _animationController =
+        AnimationController(vsync: this, duration: Duration(seconds: 20));
+    _animation =
+        CurvedAnimation(parent: _animationController, curve: Curves.linear)
+          ..addListener(() {
+            setState(() {});
+          })
+          ..addStatusListener((animationStatus) {
+            if (animationStatus == AnimationStatus.completed) {
+              _animationController.reset();
+              _animationController.forward();
+            }
+          });
+    _animationController.forward();
+    super.initState();
+  }
+
   void _submitFormOnLogin() async {
     final isValid = _loginFormKey.currentState!.validate();
     if (isValid) {
@@ -58,6 +77,9 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
         print("error occurred $error");
       }
     }
+    setState(() {
+      _isLoading = true;
+    });
   }
 
   @override
