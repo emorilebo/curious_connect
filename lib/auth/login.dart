@@ -1,6 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:linkedin_clone/auth/forget_pass.dart';
+import 'package:linkedin_clone/auth/register.dart';
 import 'package:linkedin_clone/services/global_variables.dart';
 
 class Login extends StatefulWidget {
@@ -58,74 +61,21 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 80),
               child: ListView(
                 children: [
-                  Padding(padding: const EdgeInsets.only(left: 80.0, right: 80.0,),)
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: 80.0,
+                      right: 80.0,
+                    ),
+                    child: Image.asset('assets/images/signup.png'),
+                  ),
                   Form(
-                    key: _signUpFormKey,
+                    key: _loginFormKey,
                     child: Column(
                       children: [
-                        GestureDetector(
-                          onTap: () {
-                            _showImageDialog();
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              width: size.width * 0.24,
-                              height: size.width * 0.24,
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  width: 1,
-                                  color: Colors.white,
-                                ),
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(16),
-                                child: imageFile == null
-                                    ? Icon(Icons.camera_enhance,
-                                        color: Colors.blue, size: 30)
-                                    : Image.file(imageFile!, fit: BoxFit.fill),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 20),
-                        TextFormField(
-                          textInputAction: TextInputAction.next,
-                          onEditingComplete: () => FocusScope.of(context)
-                              .requestFocus(_emailFocusNode),
-                          keyboardType: TextInputType.name,
-                          controller: _fullNameController,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return "This field is missing";
-                            } else {
-                              return null;
-                            }
-                          },
-                          style: TextStyle(color: Colors.white),
-                          decoration: InputDecoration(
-                            hintText: "Full name / Company name",
-                            hintStyle: TextStyle(color: Colors.white),
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white),
-                            ),
-                            errorBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.red),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
                         TextFormField(
                           textInputAction: TextInputAction.next,
                           onEditingComplete: () => FocusScope.of(context)
                               .requestFocus(_passFocusNode),
-                          focusNode: _emailFocusNode,
                           keyboardType: TextInputType.emailAddress,
                           controller: _emailTextController,
                           validator: (value) {
@@ -150,13 +100,8 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                             ),
                           ),
                         ),
-                        SizedBox(
-                          height: 20,
-                        ),
                         TextFormField(
                           textInputAction: TextInputAction.next,
-                          onEditingComplete: () => FocusScope.of(context)
-                              .requestFocus(_phoneNumberFocusNode),
                           focusNode: _passFocusNode,
                           keyboardType: TextInputType.visiblePassword,
                           controller: _passTextController,
@@ -196,104 +141,54 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                           ),
                         ),
                         SizedBox(
-                          height: 20,
+                          height: 15,
                         ),
-                        TextFormField(
-                          textInputAction: TextInputAction.next,
-                          onEditingComplete: () => FocusScope.of(context)
-                              .requestFocus(_positionFocusNode),
-                          focusNode: _phoneNumberFocusNode,
-                          keyboardType: TextInputType.phone,
-                          controller: _phoneNumberController,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return "This field is missing";
-                            } else {
-                              return null;
-                            }
-                          },
-                          style: TextStyle(color: Colors.white),
-                          decoration: InputDecoration(
-                            hintText: "Phone Number",
-                            hintStyle: TextStyle(color: Colors.white),
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white),
-                            ),
-                            errorBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.red),
+                        Align(
+                          alignment: Alignment.bottomRight,
+                          child: TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          ForgotPasswordScreen()));
+                            },
+                            child: Text(
+                              "Forgot Password",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 17,
+                                fontStyle: FontStyle.italic,
+                              ),
                             ),
                           ),
                         ),
                         SizedBox(
-                          height: 20,
+                          height: 10,
                         ),
-                        TextFormField(
-                          textInputAction: TextInputAction.next,
-                          onEditingComplete: () => FocusScope.of(context)
-                              .requestFocus(_positionFocusNode),
-                          focusNode: _positionFocusNode,
-                          keyboardType: TextInputType.text,
-                          controller: _locationController,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return "This field is missing";
-                            } else {
-                              return null;
-                            }
-                          },
-                          style: TextStyle(color: Colors.white),
-                          decoration: InputDecoration(
-                            hintText: "Address",
-                            hintStyle: TextStyle(color: Colors.white),
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white),
-                            ),
-                            errorBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.red),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        _isLoading
-                            ? Center(
-                                child: Container(
-                                  width: 70,
-                                  height: 70,
-                                  child: CircularProgressIndicator(),
-                                ),
-                              )
-                            : MaterialButton(
-                                onPressed: _submitFromOnSignUp,
-                                color: Colors.blue,
-                                elevation: 8,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(13)),
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 14),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        "Sign Up",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20,
-                                        ),
-                                      ),
-                                    ],
+                        MaterialButton(
+                          onPressed: _submitFormOnLogin,
+                          color: Colors.blue,
+                          elevation: 8,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(13)),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Login",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
                                   ),
                                 ),
-                              ),
+                              ],
+                            ),
+                          ),
+                        ),
                         SizedBox(
                           height: 40,
                         ),
@@ -302,7 +197,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                             text: TextSpan(
                               children: [
                                 TextSpan(
-                                  text: "Already have an account?",
+                                  text: "Don't have an account?",
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
@@ -311,10 +206,11 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                                 TextSpan(text: '   '),
                                 TextSpan(
                                   recognizer: TapGestureRecognizer()
-                                    ..onTap = () => Navigator.canPop(context)
-                                        ? Navigator.pop(context)
-                                        : null,
-                                  text: 'Login here',
+                                    ..onTap = () => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => SignUp())),
+                                  text: 'Register here',
                                   style: TextStyle(
                                       color: Colors.blue,
                                       fontWeight: FontWeight.bold,
@@ -334,6 +230,5 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
         ],
       ),
     );
-  
   }
 }
