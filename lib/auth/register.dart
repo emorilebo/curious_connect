@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -74,7 +76,7 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin {
     super.initState();
   }
 
-  void _submitFromOnSignUp() {
+  void _submitFromOnSignUp() async {
     final isValid = _signUpFormKey.currentState!.validate();
     if (isValid) {
       if (imageFile == null) {
@@ -82,7 +84,42 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin {
             error: "Please pick an image", ctx: context);
         return;
       }
+      setState(() {
+        _isLoading = true;
+      });
+      try {
+        await _auth.createUserWithEmailAndPassword(
+          email: _emailTextController.text.trim().toLowerCase(),
+          password: _passTextController.text.trim(),
+        );
+        final User? user = _auth.currentUser;
+        final _uid = user!.uid;
+        final ref = FirebaseStorage.instance
+            .ref()
+            .child('userImages')
+            .child(_uid + '.jpg');
+        await ref.putFile(imageFile!);
+        imageUrl = await ref.getDownloadURL();
+        FirebaseFirestore.instance.collection("users").doc(_uid).set({
+          'id': _uid,
+          'name': _fullNameController.text,
+          'email': _emailTextController.text,
+          'userImage': imageUrl,
+          'phoneNumber': _phoneNumberController.text,
+          'location': _locationController.text,
+          'createdAt': Timestamp.now(),
+        });
+        Navigator.canPop(context) ? Navigator.pop(context) : null;
+      } catch (error) {
+        setState(() {
+          _isLoading = false;
+        });
+        GlobalMethod.showErrorDialog(error: error.toString(), ctx: context);
+      }
     }
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
@@ -321,7 +358,7 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin {
                                 ),
                               )
                             : MaterialButton(
-                                onPressed: () {},
+                                onPressed: _submitFromOnSignUp,
                                 color: Colors.blue,
                                 elevation: 8,
                                 shape: RoundedRectangleBorder(
