@@ -167,14 +167,54 @@ class _UploadJobNowState extends State<UploadJobNow> {
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              Persistent.taskCategoryList[index],
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 16,
+                              ),
+                            ),
                           )
                         ],
                       ),
                     );
                   }),
             ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.canPop(context) ? Navigator.pop(context) : null;
+                },
+                child: Text(
+                  'Cancel',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+            ],
           );
         });
+  }
+
+  void _pickDateDialog() async {
+    picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now().subtract(
+        Duration(days: 0),
+      ),
+      lastDate: DateTime(2100),
+    );
+    if (picked != null) {
+      setState(() {
+        _deadlineDateController.text =
+            '${picked!.year}-${picked!.month}-${picked!.day}';
+        deadlineDateTimeStamp = Timestamp.fromMicrosecondsSinceEpoch(
+            picked!.microsecondsSinceEpoch);
+      });
+    }
   }
 
   Widget _textTitles({required String label}) {
