@@ -6,6 +6,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:linkedin_clone/services/global_methods.dart';
 import 'package:linkedin_clone/services/global_variables.dart';
 
 class SignUp extends StatefulWidget {
@@ -73,6 +74,17 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin {
     super.initState();
   }
 
+  void _submitFromOnSignUp() {
+    final isValid = _signUpFormKey.currentState!.validate();
+    if (isValid) {
+      if (imageFile == null) {
+        GlobalMethod.showErrorDialog(
+            error: "Please pick an image", ctx: context);
+        return;
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -127,9 +139,7 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin {
                             ),
                           ),
                         ),
-                        SizedBox(
-                          height: 20,
-                        ),
+                        SizedBox(height: 20),
                         TextFormField(
                           textInputAction: TextInputAction.next,
                           onEditingComplete: () => FocusScope.of(context)
