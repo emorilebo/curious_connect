@@ -403,7 +403,7 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin {
                                         : null,
                                   text: 'Login here',
                                   style: TextStyle(
-                                      color: Colors.white,
+                                      color: Colors.blue,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16),
                                 ),
