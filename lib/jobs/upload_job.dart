@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:linkedin_clone/persistent/persistent.dart';
+import 'package:linkedin_clone/widgets/bottomNavBar.dart';
 
 class UploadJobNow extends StatefulWidget {
   const UploadJobNow({Key? key}) : super(key: key);
@@ -8,8 +11,183 @@ class UploadJobNow extends StatefulWidget {
 }
 
 class _UploadJobNowState extends State<UploadJobNow> {
+  TextEditingController _taskCategoryController =
+      TextEditingController(text: 'Select Job Category');
+  TextEditingController _taskTitleController = TextEditingController();
+  TextEditingController _taskDescriptionController = TextEditingController();
+  TextEditingController _deadlineDateController =
+      TextEditingController(text: "Job Deadline Date");
+
+  final _formKey = GlobalKey<FormState>();
+  DateTime? picked;
+  Timestamp? deadlineDateTimeStamp;
+  bool _isLoading = false;
+
+  @override
+  void dispose() {
+    super.dispose();
+    _taskCategoryController.dispose();
+    _taskTitleController.dispose();
+    _taskDescriptionController.dispose();
+    _deadlineDateController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container();
+    Size size = MediaQuery.of(context).size;
+    return Scaffold(
+      bottomNavigationBar: BottomNavigationBarForApp(indexNum: 2),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(7),
+          child: Card(
+            color: Colors.white10,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "Please fill all fields",
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Divider(
+                    thickness: 1,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _textFormFields(
+      {required String valueKey,
+      required TextEditingController controller,
+      required bool enabled,
+      required Function fct,
+      required int maxLength}) {
+    return Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: InkWell(
+        onTap: () {
+          fct();
+        },
+        child: TextFormField(
+          validator: (value) {
+            if (value!.isEmpty) {
+              return 'Value is missing';
+            }
+            return null;
+          },
+          controller: controller,
+          enabled: enabled,
+          key: ValueKey(valueKey),
+          style: TextStyle(
+            color: Colors.white,
+          ),
+          maxLines: valueKey == 'TaskDescription' ? 3 : 1,
+          maxLength: maxLength,
+          keyboardType: TextInputType.text,
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: Colors.grey,
+            enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.white10),
+            ),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+            ),
+            errorBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.red),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  _showTaskCategoryDialog({required Size size}) {
+    showDialog(
+        context: context,
+        builder: (ctx) {
+          return AlertDialog(
+            backgroundColor: Colors.black,
+            title: Text(
+              'Job Category',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 20, color: Colors.white),
+            ),
+            content: Container(
+              width: size.width * 0.9,
+              child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: Persistent.taskCategoryList.length,
+                  itemBuilder: (ctxx, index) {
+                    return InkWell(
+                      onTap: () {
+                        setState(() {
+                          _taskCategoryController.text =
+                              Persistent.taskCategoryList[index];
+                        });
+                        Navigator.pop(context);
+                      },
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.arrow_right_outlined,
+                            color: Colors.grey,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                          )
+                        ],
+                      ),
+                    );
+                  }),
+            ),
+          );
+        });
+  }
+
+  Widget _textTitles({required String label}) {
+    return Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: Text(
+        label,
+        style: TextStyle(
+          color: Colors.grey,
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
   }
 }
