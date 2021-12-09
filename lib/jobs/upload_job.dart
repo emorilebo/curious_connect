@@ -11,10 +11,10 @@ class UploadJobNow extends StatefulWidget {
 }
 
 class _UploadJobNowState extends State<UploadJobNow> {
-  TextEditingController _taskCategoryController =
+  TextEditingController _jobCategoryController =
       TextEditingController(text: 'Select Job Category');
-  TextEditingController _taskTitleController = TextEditingController();
-  TextEditingController _taskDescriptionController = TextEditingController();
+  TextEditingController _jobTitleController = TextEditingController();
+  TextEditingController _jobDescriptionController = TextEditingController();
   TextEditingController _deadlineDateController =
       TextEditingController(text: "Job Deadline Date");
 
@@ -26,9 +26,9 @@ class _UploadJobNowState extends State<UploadJobNow> {
   @override
   void dispose() {
     super.dispose();
-    _taskCategoryController.dispose();
-    _taskTitleController.dispose();
-    _taskDescriptionController.dispose();
+    _jobCategoryController.dispose();
+    _jobTitleController.dispose();
+    _jobDescriptionController.dispose();
     _deadlineDateController.dispose();
   }
 
@@ -75,7 +75,18 @@ class _UploadJobNowState extends State<UploadJobNow> {
                       key: _formKey,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [],
+                        children: [
+                          _textTitles(label: "Job Category :"),
+                          _textFormFields(
+                            valueKey: 'JobCategory',
+                            controller: _jobCategoryController,
+                            enabled: false,
+                            fct: () {
+                              _showTaskCategoryDialog(size: size);
+                            },
+                            maxLength: 100,
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -154,7 +165,7 @@ class _UploadJobNowState extends State<UploadJobNow> {
                     return InkWell(
                       onTap: () {
                         setState(() {
-                          _taskCategoryController.text =
+                          _jobCategoryController.text =
                               Persistent.taskCategoryList[index];
                         });
                         Navigator.pop(context);

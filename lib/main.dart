@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:linkedin_clone/auth/register.dart';
 import 'package:linkedin_clone/user_state.dart';
 
 void main() {
