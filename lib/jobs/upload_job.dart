@@ -148,6 +148,7 @@ class _UploadJobNowState extends State<UploadJobNow> {
                                     ),
                                     Icon(
                                       Icons.upload_file,
+                                      color: Colors.white,
                                     ),
                                   ],
                                 ),
