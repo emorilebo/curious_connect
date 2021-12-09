@@ -26,6 +26,12 @@ class _JobScreenState extends State<JobScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    getMyData();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container();
   }
