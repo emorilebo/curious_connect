@@ -17,7 +17,7 @@ class UserState extends StatelessWidget {
           return Login();
         } else if (userSnapshot.hasData) {
           print("user is already logged in");
-          return UploadJobNow();
+          return JobScreen();
         } else if (userSnapshot.hasError) {
           return Scaffold(
             body: Center(
