@@ -86,8 +86,73 @@ class _UploadJobNowState extends State<UploadJobNow> {
                             },
                             maxLength: 100,
                           ),
+                          _textTitles(label: 'Job Title :'),
+                          _textFormFields(
+                            valueKey: "JobTitle",
+                            controller: _jobTitleController,
+                            enabled: true,
+                            fct: () {},
+                            maxLength: 100,
+                          ),
+                          _textTitles(label: 'Job Description :'),
+                          _textFormFields(
+                            valueKey: "JobDesription",
+                            controller: _jobDescriptionController,
+                            enabled: true,
+                            fct: () {},
+                            maxLength: 100,
+                          ),
+                          _textTitles(label: 'Job Deadline Date :'),
+                          _textFormFields(
+                            valueKey: "Jobdeadline",
+                            controller: _deadlineDateController,
+                            enabled: false,
+                            fct: () {
+                              _pickDateDialog();
+                            },
+                            maxLength: 100,
+                          ),
                         ],
                       ),
+                    ),
+                  ),
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 30),
+                      child: _isLoading
+                          ? CircularProgressIndicator()
+                          : MaterialButton(
+                              onPressed: () {},
+                              color: Colors.black,
+                              elevation: 8,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(13),
+                              ),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 14),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Post Now',
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 8,
+                                    ),
+                                    Icon(
+                                      Icons.upload_file,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
                     ),
                   ),
                 ],
