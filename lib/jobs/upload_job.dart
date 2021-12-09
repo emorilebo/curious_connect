@@ -220,7 +220,7 @@ class _UploadJobNowState extends State<UploadJobNow> {
             title: Text(
               'Job Category',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20, color: Colors.white),
+              style: TextStyle(fontSize: 16, color: Colors.white),
             ),
             content: Container(
               width: size.width * 0.9,
@@ -248,7 +248,7 @@ class _UploadJobNowState extends State<UploadJobNow> {
                               Persistent.taskCategoryList[index],
                               style: TextStyle(
                                 color: Colors.grey,
-                                fontSize: 16,
+                                fontSize: 14,
                               ),
                             ),
                           )

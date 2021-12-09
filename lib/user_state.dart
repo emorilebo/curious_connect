@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:linkedin_clone/auth/login.dart';
 import 'package:linkedin_clone/jobs/jobs_screen.dart';
+import 'package:linkedin_clone/jobs/upload_job.dart';
 
 class UserState extends StatelessWidget {
   const UserState({Key? key}) : super(key: key);
@@ -16,7 +17,7 @@ class UserState extends StatelessWidget {
           return Login();
         } else if (userSnapshot.hasData) {
           print("user is already logged in");
-          return JobScreen();
+          return UploadJobNow();
         } else if (userSnapshot.hasError) {
           return Scaffold(
             body: Center(
