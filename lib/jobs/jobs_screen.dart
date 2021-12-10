@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:linkedin_clone/search/search_job.dart';
 import 'package:linkedin_clone/services/global_variables.dart';
 import 'package:linkedin_clone/widgets/bottomNavBar.dart';
+import 'package:linkedin_clone/widgets/job_widget.dart';
 
 class JobScreen extends StatefulWidget {
   const JobScreen({Key? key}) : super(key: key);
@@ -59,6 +60,29 @@ class _JobScreenState extends State<JobScreen> {
             ),
           ),
         ],
+      ),
+      body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+        stream: FirebaseFirestore.instance
+            .collection('jobs')
+            .where('jobCategory', isEqualTo: jobCategoryFilter)
+            .where('recruitment', isEqualTo: true)
+            .orderBy('createdAt', descending: false)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (snapshot.connectionState == ConnectionState.active) {
+            if (snapshot.data?.docs.isNotEmpty == true) {
+              return ListView.builder(
+                itemCount: snapshot.data?.docs.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return JobWidget(taskTitle: taskTitle, taskDescription: taskDescription, taskId: taskId, uploadBy: uploadBy, userImage: userImage, name: name, recruitment: recruitment, email: email, location: location)
+                  });
+            }
+          }
+        },
       ),
     );
   }
