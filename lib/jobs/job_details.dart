@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class JobDetailScreen extends StatefulWidget {
   final String uploadedBy;
@@ -30,6 +31,26 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
   int applicants = 0;
   bool isDeadlineAvailable = false;
   bool showComment = false;
+
+  @override
+  void initState() {
+    super.initState();
+    getJobData();
+  }
+
+  applyForJob() {
+    final Uri params = Uri(
+      scheme: 'mailto',
+      path: emailCompany,
+      query:
+          'subject=Applying for $jobTitle&body=Hello, please attach Resume CV file',
+    );
+    final url = params.toString();
+    launch(url);
+    addNewApplicant();
+  }
+
+  void addNewApplicant() async {}
 
   void getJobData() async {
     final DocumentSnapshot userDoc = await FirebaseFirestore.instance
