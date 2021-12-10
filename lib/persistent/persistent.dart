@@ -12,7 +12,7 @@ class Persistent {
     'Digital Marketing',
   ];
 
-  static List<String> taskCategoryList = [
+  static List<String> jobCategoryList = [
     'Architecture and Construction',
     'Education and Training',
     'Development - Programming',

@@ -287,13 +287,13 @@ class _UploadJobNowState extends State<UploadJobNow> {
               width: size.width * 0.9,
               child: ListView.builder(
                   shrinkWrap: true,
-                  itemCount: Persistent.taskCategoryList.length,
+                  itemCount: Persistent.jobCategoryList.length,
                   itemBuilder: (ctxx, index) {
                     return InkWell(
                       onTap: () {
                         setState(() {
                           _jobCategoryController.text =
-                              Persistent.taskCategoryList[index];
+                              Persistent.jobCategoryList[index];
                         });
                         Navigator.pop(context);
                       },
@@ -306,7 +306,7 @@ class _UploadJobNowState extends State<UploadJobNow> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              Persistent.taskCategoryList[index],
+                              Persistent.jobCategoryList[index],
                               style: TextStyle(
                                 color: Colors.grey,
                                 fontSize: 14,
