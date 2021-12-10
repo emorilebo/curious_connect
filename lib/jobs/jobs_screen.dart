@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:linkedin_clone/persistent/persistent.dart';
 import 'package:linkedin_clone/search/search_job.dart';
 import 'package:linkedin_clone/services/global_variables.dart';
 import 'package:linkedin_clone/widgets/bottomNavBar.dart';
@@ -76,14 +77,111 @@ class _JobScreenState extends State<JobScreen> {
           } else if (snapshot.connectionState == ConnectionState.active) {
             if (snapshot.data?.docs.isNotEmpty == true) {
               return ListView.builder(
-                itemCount: snapshot.data?.docs.length,
+                  itemCount: snapshot.data?.docs.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return JobWidget(taskTitle: taskTitle, taskDescription: taskDescription, taskId: taskId, uploadBy: uploadBy, userImage: userImage, name: name, recruitment: recruitment, email: email, location: location)
+                    return JobWidget(
+                      jobTitle: snapshot.data?.docs[index]['jobTitle'],
+                      jobDescription: snapshot.data?.docs[index]
+                          ['jobDescription'],
+                      jobId: snapshot.data?.docs[index]['jobId'],
+                      uploadBy: snapshot.data?.docs[index]['uploadedBy'],
+                      userImage: snapshot.data?.docs[index]['userImage'],
+                      name: snapshot.data?.docs[index]['name'],
+                      recruitment: snapshot.data?.docs[index]['recruitment'],
+                      email: snapshot.data?.docs[index]['email'],
+                      location: snapshot.data?.docs[index]['location'],
+                    );
                   });
+            } else {
+              return Center(
+                child: Text('There is no jobs'),
+              );
             }
           }
+          return Center(
+            child: Text(
+              'Something went wrong',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+            ),
+          );
         },
       ),
+    );
+  }
+
+  _showTaskCategoryDialog({required Size size}) {
+    showDialog(
+      context: context,
+      builder: (ctx) {
+        return AlertDialog(
+          backgroundColor: Colors.black,
+          title: Text(
+            'Job Category',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 20, color: Colors.white),
+          ),
+          content: Container(
+            width: size.width * 0.9,
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: Persistent.jobCategoryList.length,
+              itemBuilder: (ctxx, index) {
+                return InkWell(
+                  onTap: () {
+                    setState(() {
+                      jobCategoryFilter = Persistent.jobCategoryList[index];
+                    });
+                    Navigator.canPop(ctx) ? Navigator.pop(ctx) : null;
+                    print(
+                        'jobCategoryList[index], ${Persistent.jobCategoryList[index]}');
+                  },
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.arrow_right_outlined,
+                        color: Colors.grey,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          Persistent.jobCategoryList[index],
+                          style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 15,
+                              fontStyle: FontStyle.italic),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.canPop(ctx) ? Navigator.pop(ctx) : null;
+              },
+              child: Text(
+                'Close',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  jobCategoryFilter = null;
+                });
+                Navigator.canPop(ctx) ? Navigator.pop(ctx) : null;
+              },
+              child: Text(
+                'Close',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

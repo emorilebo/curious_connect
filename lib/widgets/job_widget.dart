@@ -6,9 +6,9 @@ import 'package:linkedin_clone/jobs/job_details.dart';
 import 'package:linkedin_clone/services/global_methods.dart';
 
 class JobWidget extends StatefulWidget {
-  final String taskTitle;
-  final String taskDescription;
-  final String taskId;
+  final String jobTitle;
+  final String jobDescription;
+  final String jobId;
   final String uploadBy;
   final String userImage;
   final String name;
@@ -17,9 +17,9 @@ class JobWidget extends StatefulWidget {
   final String location;
 
   const JobWidget(
-      {required this.taskTitle,
-      required this.taskDescription,
-      required this.taskId,
+      {required this.jobTitle,
+      required this.jobDescription,
+      required this.jobId,
       required this.uploadBy,
       required this.userImage,
       required this.name,
@@ -45,7 +45,7 @@ class _JobWidgetState extends State<JobWidget> {
               context,
               MaterialPageRoute(
                   builder: (context) => JobDetailScreen(
-                      uploadedBy: widget.uploadBy, taskID: widget.taskId)));
+                      uploadedBy: widget.uploadBy, taskID: widget.jobId)));
         },
         onLongPress: _deleteDialog(),
         contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -59,7 +59,7 @@ class _JobWidgetState extends State<JobWidget> {
           child: Image.network(widget.userImage),
         ),
         title: Text(
-          widget.taskTitle,
+          widget.jobTitle,
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
@@ -85,7 +85,7 @@ class _JobWidgetState extends State<JobWidget> {
               height: 8,
             ),
             Text(
-              widget.taskDescription,
+              widget.jobDescription,
               maxLines: 4,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
@@ -117,11 +117,11 @@ class _JobWidgetState extends State<JobWidget> {
                 try {
                   if (widget.uploadBy == _uid) {
                     await FirebaseFirestore.instance
-                        .collection('tasks')
-                        .doc(widget.taskId)
+                        .collection('jobs')
+                        .doc(widget.jobId)
                         .delete();
                     await Fluttertoast.showToast(
-                        msg: "Task has been deleted",
+                        msg: "Job has been deleted",
                         toastLength: Toast.LENGTH_LONG,
                         backgroundColor: Colors.grey,
                         fontSize: 18.0);
