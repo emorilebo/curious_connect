@@ -50,7 +50,14 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
     addNewApplicant();
   }
 
-  void addNewApplicant() async {}
+  void addNewApplicant() async {
+    var docRef =
+        FirebaseFirestore.instance.collection('jobs').doc(widget.jobID);
+    docRef.update({
+      'applicants': applicants + 1,
+    });
+    Navigator.pop(context);
+  }
 
   void getJobData() async {
     final DocumentSnapshot userDoc = await FirebaseFirestore.instance
