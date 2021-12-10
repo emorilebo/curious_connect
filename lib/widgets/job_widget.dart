@@ -45,7 +45,7 @@ class _JobWidgetState extends State<JobWidget> {
               context,
               MaterialPageRoute(
                   builder: (context) => JobDetailScreen(
-                      uploadedBy: widget.uploadBy, taskID: widget.jobId)));
+                      uploadedBy: widget.uploadBy, jobID: widget.jobId)));
         },
         onLongPress: _deleteDialog(),
         contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
