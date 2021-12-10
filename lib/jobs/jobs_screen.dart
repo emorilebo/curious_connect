@@ -175,7 +175,7 @@ class _JobScreenState extends State<JobScreen> {
                 Navigator.canPop(ctx) ? Navigator.pop(ctx) : null;
               },
               child: Text(
-                'Close',
+                'Cancel Filter',
                 style: TextStyle(color: Colors.white),
               ),
             ),
