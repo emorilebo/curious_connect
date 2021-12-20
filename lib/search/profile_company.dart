@@ -191,6 +191,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           },
                                           color: Colors.white10,
                                           elevation: 8,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 14),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  'Logout',
+                                                  style: TextStyle(
+                                                    color: Colors.grey,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 20,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 8,
+                                                ),
+                                                Icon(
+                                                  Icons.logout,
+                                                  color: Colors.white,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ),
