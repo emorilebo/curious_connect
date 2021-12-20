@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:linkedin_clone/services/global_methods.dart';
 import 'package:linkedin_clone/services/global_variables.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -207,6 +208,113 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
                           ),
                         ],
                       ),
+                      FirebaseAuth.instance.currentUser!.uid !=
+                              widget.uploadedBy
+                          ? Container()
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                dividerWidget(),
+                                Text(
+                                  'Recruitment:',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                      color: Colors.white),
+                                ),
+                                SizedBox(height: 5),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    TextButton(
+                                      onPressed: () {
+                                        User? user = _auth.currentUser;
+                                        final _uid = user!.uid;
+                                        if (_uid == widget.uploadedBy) {
+                                          try {
+                                            FirebaseFirestore.instance
+                                                .collection('jobs')
+                                                .doc(widget.jobID)
+                                                .update({'recruitment': true});
+                                          } catch (err) {
+                                            GlobalMethod.showErrorDialog(
+                                                error:
+                                                    "Action can't be performed",
+                                                ctx: context);
+                                          }
+                                        } else {
+                                          GlobalMethod.showErrorDialog(
+                                              error:
+                                                  "You can't perform this action",
+                                              ctx: context);
+                                        }
+                                        getJobData();
+                                      },
+                                      child: Text(
+                                        'ON',
+                                        style: TextStyle(
+                                          fontStyle: FontStyle.italic,
+                                          color: Colors.black,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                      ),
+                                    ),
+                                    Opacity(
+                                      opacity: recruitment == true ? 1 : 0,
+                                      child: Icon(
+                                        Icons.check_box,
+                                        color: Colors.green,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 40,
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        User? user = _auth.currentUser;
+                                        final _uid = user!.uid;
+                                        if (_uid == widget.uploadedBy) {
+                                          try {
+                                            FirebaseFirestore.instance
+                                                .collection('jobs')
+                                                .doc(widget.jobID)
+                                                .update({'recruitment': false});
+                                          } catch (err) {
+                                            GlobalMethod.showErrorDialog(
+                                                error:
+                                                    "Action can't be performed",
+                                                ctx: context);
+                                          }
+                                        } else {
+                                          GlobalMethod.showErrorDialog(
+                                              error:
+                                                  "You can't perform this action",
+                                              ctx: context);
+                                        }
+                                        getJobData();
+                                      },
+                                      child: Text(
+                                        'OFF',
+                                        style: TextStyle(
+                                          fontStyle: FontStyle.italic,
+                                          color: Colors.black,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                      ),
+                                    ),
+                                    Opacity(
+                                      opacity: recruitment == false ? 1 : 0,
+                                      child: Icon(
+                                        Icons.check_box,
+                                        color: Colors.red,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                     ],
                   ),
                 ),
