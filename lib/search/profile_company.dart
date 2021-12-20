@@ -22,19 +22,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String joinedAt = '';
   bool _isSameUser = false;
 
-  void getUserData() async{
-    try{
+  void getUserData() async {
+    try {
       _isLoading = true;
-      final DocumentSnapshot userDoc = await FirebaseAuth.instance
-        .collection('users')
-        .doc(widget.userID)
-        .get();
+      final DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(widget.userID)
+          .get();
 
-
-      if(userDoc == null){
+      if (userDoc == null) {
         return;
-      }else{
-
+      } else {
         setState(() {
           email = userDoc.get('email');
           name = userDoc.get('name');
@@ -50,9 +48,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
           _isSameUser = _uid == widget.userID;
         });
       }
+    } catch (error) {
+    } finally {
+      _isLoading = false;
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
