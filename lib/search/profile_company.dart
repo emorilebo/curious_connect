@@ -69,6 +69,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
             : SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.only(top: 0),
+                  child: Stack(
+                    children: [
+                      Card(
+                        color: Colors.white10,
+                        margin: EdgeInsets.all(30),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                height: 100,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
       ),
