@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:linkedin_clone/jobs/jobs_screen.dart';
 import 'package:linkedin_clone/services/global_methods.dart';
 import 'package:linkedin_clone/services/global_variables.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:uuid/uuid.dart';
 
 class JobDetailScreen extends StatefulWidget {
   final String uploadedBy;
@@ -430,6 +432,83 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
                         ],
                       ),
                       dividerWidget(),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Card(
+                color: Colors.white38,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AnimatedSwitcher(
+                        duration: Duration(
+                          milliseconds: 500,
+                        ),
+                        child: _isCommenting 
+                        ? Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Flexible(
+                              flex: 3,
+                              child: TextField(
+                                controller: _commentController,
+                                style: TextStyle(color: Colors.white,),
+                                maxLength: 200,
+                                keyboardType: TextInputType.text,
+                                maxLines: 6,
+                                decoration: InputDecoration(
+                                  filled: true,
+                                  fillColor: Theme.of(context).scaffoldBackgroundColor,
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.white),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.pink),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Flexible(
+                              child: Column(
+                                children: [
+                                  Padding(padding: const EdgeInsets.symmetric(horizontal: 8),
+                                  child: MaterialButton(onPressed: () async{
+                                    if(_commentController.text.length < 7){
+                                      GlobalMethod.showErrorDialog(error: 'Comment cant be less than 7 characters', ctx: context);
+                                    }else{
+                                        final _generatedId = Uuid().v4();
+                                        await FirebaseFirestore.instance
+                                        .collection('jobs')
+                                        .doc(widget.jobID)
+                                        .update({
+                                          'jobComments': FieldValue.arrayUnion([
+                                            {
+                                              'userId': FirebaseAuth.instance.currentUser!.uid,
+                                            'commentId': _generatedId,
+                                            'name': name,
+                                            'userImageUrl': userImage,
+                                            'commentBody': _commentController.text,
+                                            'time': Timestamp.now(),
+                                            }
+                                            
+                                          ]),
+                                        });
+                                        await Fluttertoast.showToast();
+                                    }
+                                  }
+                                  ),
+                                  ),
+                                ],
+                              ),),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
