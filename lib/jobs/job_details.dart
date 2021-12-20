@@ -450,64 +450,129 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
                         duration: Duration(
                           milliseconds: 500,
                         ),
-                        child: _isCommenting 
-                        ? Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Flexible(
-                              flex: 3,
-                              child: TextField(
-                                controller: _commentController,
-                                style: TextStyle(color: Colors.white,),
-                                maxLength: 200,
-                                keyboardType: TextInputType.text,
-                                maxLines: 6,
-                                decoration: InputDecoration(
-                                  filled: true,
-                                  fillColor: Theme.of(context).scaffoldBackgroundColor,
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.white),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.pink),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Flexible(
-                              child: Column(
+                        child: _isCommenting
+                            ? Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Padding(padding: const EdgeInsets.symmetric(horizontal: 8),
-                                  child: MaterialButton(onPressed: () async{
-                                    if(_commentController.text.length < 7){
-                                      GlobalMethod.showErrorDialog(error: 'Comment cant be less than 7 characters', ctx: context);
-                                    }else{
-                                        final _generatedId = Uuid().v4();
-                                        await FirebaseFirestore.instance
-                                        .collection('jobs')
-                                        .doc(widget.jobID)
-                                        .update({
-                                          'jobComments': FieldValue.arrayUnion([
-                                            {
-                                              'userId': FirebaseAuth.instance.currentUser!.uid,
-                                            'commentId': _generatedId,
-                                            'name': name,
-                                            'userImageUrl': userImage,
-                                            'commentBody': _commentController.text,
-                                            'time': Timestamp.now(),
-                                            }
-                                            
-                                          ]),
-                                        });
-                                        await Fluttertoast.showToast();
-                                    }
-                                  }
+                                  Flexible(
+                                    flex: 3,
+                                    child: TextField(
+                                      controller: _commentController,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                      maxLength: 200,
+                                      keyboardType: TextInputType.text,
+                                      maxLines: 6,
+                                      decoration: InputDecoration(
+                                        filled: true,
+                                        fillColor: Theme.of(context)
+                                            .scaffoldBackgroundColor,
+                                        enabledBorder: UnderlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.white),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.pink),
+                                        ),
+                                      ),
+                                    ),
                                   ),
+                                  Flexible(
+                                    child: Column(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 8),
+                                          child: MaterialButton(
+                                            onPressed: () async {
+                                              if (_commentController
+                                                      .text.length <
+                                                  7) {
+                                                GlobalMethod.showErrorDialog(
+                                                    error:
+                                                        'Comment cant be less than 7 characters',
+                                                    ctx: context);
+                                              } else {
+                                                final _generatedId =
+                                                    Uuid().v4();
+                                                await FirebaseFirestore.instance
+                                                    .collection('jobs')
+                                                    .doc(widget.jobID)
+                                                    .update({
+                                                  'jobComments':
+                                                      FieldValue.arrayUnion([
+                                                    {
+                                                      'userId': FirebaseAuth
+                                                          .instance
+                                                          .currentUser!
+                                                          .uid,
+                                                      'commentId': _generatedId,
+                                                      'name': name,
+                                                      'userImageUrl': userImage,
+                                                      'commentBody':
+                                                          _commentController
+                                                              .text,
+                                                      'time': Timestamp.now(),
+                                                    }
+                                                  ]),
+                                                });
+                                                await Fluttertoast.showToast(
+                                                    msg:
+                                                        'Your comment has been added',
+                                                    toastLength:
+                                                        Toast.LENGTH_LONG,
+                                                    backgroundColor:
+                                                        Colors.grey,
+                                                    fontSize: 18.0);
+                                                _commentController.clear();
+                                              }
+                                              setState(() {
+                                                showComment = true;
+                                              });
+                                            },
+                                            color: Colors.blueAccent,
+                                            elevation: 0,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                            child: Text(
+                                              'Post',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              _isCommenting = !_isCommenting;
+                                              showComment = false;
+                                            });
+                                          },
+                                          child: Text('Cancel'),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ],
-                              ),),
-                          ],
-                        ),
+                              )
+                            : Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  IconButton(
+                                    onPressed: () {},
+                                    icon: Icon(
+                                      Icons.add_comment,
+                                    ),
+                                  ),
+                                ],
+                              ),
                       ),
                     ],
                   ),
