@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:linkedin_clone/widgets/bottomNavBar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -85,6 +86,75 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               SizedBox(
                                 height: 100,
                               ),
+                              Align(
+                                alignment: Alignment.center,
+                                child: Text(
+                                  name == null ? 'Name here' : name!,
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 22.0),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 15,
+                              ),
+                              Divider(
+                                thickness: 1,
+                                color: Colors.white,
+                              ),
+                              SizedBox(
+                                height: 30,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  'Account Information :',
+                                  style: TextStyle(
+                                      color: Colors.grey, fontSize: 22.0),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 15,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10.0),
+                                child:
+                                    userInfo(icon: Icons.email, content: email),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10.0),
+                                child: userInfo(
+                                    icon: Icons.phone_android,
+                                    content: phoneNumber),
+                              ),
+                              SizedBox(
+                                height: 35,
+                              ),
+                              Divider(
+                                thickness: 1,
+                                color: Colors.white,
+                              ),
+                              _isSameUser
+                                  ? Container()
+                                  : Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        _contactBy(
+                                          color: Colors.green,
+                                          fct: () {
+                                            _openWhatsAppChat();
+                                          },
+                                          icon: FontAwesome.whatsapp,
+                                        ),
+                                        _contactBy(
+                                          color: Colors.red,
+                                          fct: () {
+                                            _mailTo();
+                                          },
+                                          icon: Icons.mail_outline,
+                                        ),
+                                      ],
+                                    ),
                             ],
                           ),
                         ),
