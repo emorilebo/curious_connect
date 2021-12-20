@@ -59,6 +59,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    getUserData();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
@@ -227,6 +233,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ],
                           ),
                         ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: size.width * 0.26,
+                            height: size.width * 0.26,
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                width: 8,
+                                color:
+                                    Theme.of(context).scaffoldBackgroundColor,
+                              ),
+                              image: DecorationImage(
+                                image: NetworkImage(imageUrl == null
+                                    ? 'https://cdn.icon-icons.com/icons2/2643/PNG/512/male_boy_person_people_avatar_icon_159358.png'
+                                    : imageUrl),
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
