@@ -566,14 +566,40 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      setState(() {
+                                        _isCommenting = !_isCommenting;
+                                      });
+                                    },
                                     icon: Icon(
                                       Icons.add_comment,
+                                      color: Colors.blueAccent,
+                                      size: 40,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        showComment = true;
+                                      });
+                                    },
+                                    icon: Icon(
+                                      Icons.arrow_drop_down_circle,
+                                      color: Colors.blueAccent,
+                                      size: 40,
                                     ),
                                   ),
                                 ],
                               ),
                       ),
+                      showComment == false
+                          ? Container()
+                          : Padding(
+                              padding: const EdgeInsets.all(16.0),
+                            ),
                     ],
                   ),
                 ),
