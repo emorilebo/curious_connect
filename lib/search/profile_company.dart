@@ -64,4 +64,45 @@ class _ProfileScreenState extends State<ProfileScreen> {
     var url = 'https://wa.me/$phoneNumber?text=HelloConnect';
     launch(url);
   }
+
+  void _mailTo() async {
+    final Uri params = Uri(
+      scheme: 'mailTo',
+      path: email,
+      query:
+          'subject=Write subject here, Please&body=Hello, please write details here',
+    );
+    final url = params.toString();
+    launch(url);
+  }
+
+  void _callPhoneNumber() async {
+    var url = 'tel://$phoneNumber';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Error occurred';
+    }
+  }
+
+  Widget _contactBy(
+      {required Color color, required Function fct, required IconData icon}) {
+    return CircleAvatar(
+      backgroundColor: color,
+      radius: 25,
+      child: CircleAvatar(
+        radius: 23,
+        backgroundColor: Colors.white,
+        child: IconButton(
+          onPressed: () {
+            fct();
+          },
+          icon: Icon(
+            icon,
+            color: color,
+          ),
+        ),
+      ),
+    );
+  }
 }
