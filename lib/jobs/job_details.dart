@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:linkedin_clone/jobs/jobs_screen.dart';
 import 'package:linkedin_clone/services/global_methods.dart';
 import 'package:linkedin_clone/services/global_variables.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -108,7 +109,10 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         leading: IconButton(
           icon: Icon(Icons.close, size: 40, color: Colors.grey),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () {
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (context) => JobScreen()));
+          },
         ),
       ),
       body: SingleChildScrollView(
@@ -315,6 +319,56 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
                                 ),
                               ],
                             ),
+                      dividerWidget(),
+                      Text(
+                        'Job Description',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        jobDescription == null ? '' : jobDescription!,
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(color: Colors.grey, fontSize: 14),
+                      ),
+                      dividerWidget(),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Card(
+                color: Colors.white38,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Center(
+                        child: Text(
+                          isDeadlineAvailable
+                              ? 'Actively Recruiting, Send CV/Resume:'
+                              : " Deadline Passed Away.",
+                          style: TextStyle(
+                            color:
+                                isDeadlineAvailable ? Colors.green : Colors.red,
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 6,
+                      )
                     ],
                   ),
                 ),
