@@ -368,7 +368,68 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
                       ),
                       SizedBox(
                         height: 6,
-                      )
+                      ),
+                      Center(
+                        child: MaterialButton(
+                          onPressed: () {
+                            applyForJob();
+                          },
+                          color: Colors.blueAccent,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(13),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            child: Text(
+                              'Easy Apply Now',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
+                      ),
+                      dividerWidget(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Uploaded on:',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          Text(
+                            postedDate == null ? '' : postedDate!,
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 12,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Deadline date:',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          Text(
+                            deadlineDate == null ? '' : deadlineDate!,
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      dividerWidget(),
                     ],
                   ),
                 ),
