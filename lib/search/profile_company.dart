@@ -153,8 +153,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           },
                                           icon: Icons.mail_outline,
                                         ),
+                                        _contactBy(
+                                            color: Colors.purple,
+                                            fct: () {
+                                              _callPhoneNumber();
+                                            },
+                                            icon: Icons.call_outlined),
                                       ],
                                     ),
+                              SizedBox(
+                                height: 25,
+                              ),
+                              Divider(
+                                thickness: 1,
+                                color: Colors.white,
+                              ),
+                              SizedBox(
+                                height: 25,
+                              ),
                             ],
                           ),
                         ),
