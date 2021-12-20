@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:linkedin_clone/services/global_variables.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class JobDetailScreen extends StatefulWidget {
@@ -101,6 +102,136 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        leading: IconButton(
+          icon: Icon(Icons.close, size: 40, color: Colors.grey),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Card(
+                color: Colors.white38,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 4),
+                        child: Text(
+                          jobTitle == null ? '' : jobTitle!,
+                          maxLines: 3,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 30,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: 60,
+                            width: 60,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                width: 3,
+                                color: Colors.grey,
+                              ),
+                              shape: BoxShape.rectangle,
+                              image: DecorationImage(
+                                image: NetworkImage(
+                                  userImageUrl == null
+                                      ? 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png'
+                                      : userImageUrl!,
+                                ),
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  authorName == null ? '' : authorName!,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                      color: Colors.white),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  locationCompany,
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      dividerWidget(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            applicants.toString(),
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                                color: Colors.white),
+                          ),
+                          SizedBox(
+                            width: 6,
+                          ),
+                          Text(
+                            'Applicant',
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                          SizedBox(width: 10),
+                          Icon(
+                            Icons.how_to_reg_sharp,
+                            color: Colors.grey,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget dividerWidget() {
+    return Column(
+      children: [
+        SizedBox(
+          height: 10,
+        ),
+        Divider(
+          thickness: 1,
+          color: Colors.grey,
+        ),
+        SizedBox(
+          height: 10,
+        ),
+      ],
+    );
   }
 }
