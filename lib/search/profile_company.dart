@@ -105,4 +105,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
+
+  Widget userInfo({required IconData icon, required String content}) {
+    return Row(
+      children: [
+        Icon(
+          icon,
+          color: Colors.white,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Text(
+            content,
+            style: TextStyle(color: Colors.grey),
+          ),
+        ),
+      ],
+    );
+  }
 }
