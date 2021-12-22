@@ -23,7 +23,19 @@ class _AllWorkersScreenState extends State<AllWorkersScreen> {
     );
   }
 
-  void updateSearchQuery(String newQuery) {}
+  void updateSearchQuery(String newQuery) {
+    setState(() {
+      searchQuery = newQuery;
+      print(searchQuery);
+    });
+  }
+
+  void _clearSearchQuery() {
+    setState(() {
+      _seacrchQueryController.clear();
+      updateSearchQuery('');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
