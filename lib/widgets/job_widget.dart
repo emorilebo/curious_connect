@@ -48,7 +48,7 @@ class _JobWidgetState extends State<JobWidget> {
                       uploadedBy: widget.uploadBy, jobID: widget.jobId)));
         },
         onLongPress:()=> _deleteDialog(),
-        contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
         leading: Container(
           padding: EdgeInsets.only(right: 12),
           decoration: BoxDecoration(
