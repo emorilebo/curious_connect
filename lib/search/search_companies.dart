@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:linkedin_clone/widgets/bottomNavBar.dart';
 
 class AllWorkersScreen extends StatefulWidget {
   @override
@@ -50,6 +51,16 @@ class _AllWorkersScreenState extends State<AllWorkersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      bottomNavigationBar: BottomNavigationBarForApp(
+        indexNum: 1,
+      ),
+      appBar: AppBar(
+        backgroundColor: Colors.white10,
+        automaticallyImplyLeading: false,
+        title: _buildSearchField(),
+        actions: _buildActions(),
+      ),
+    );
   }
 }
