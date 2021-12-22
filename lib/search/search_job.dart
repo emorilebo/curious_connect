@@ -95,8 +95,18 @@ class _SearchScreenState extends State<SearchScreen> {
                       location: snapshot.data?.docs[index]['location'],
                     );
                   });
+            } else {
+              return Center(
+                child: Text('There is no job'),
+              );
             }
           }
+          return Center(
+            child: Text(
+              'Something went wrong',
+              style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
+            ),
+          );
         },
       ),
     );
