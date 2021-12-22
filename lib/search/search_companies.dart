@@ -86,8 +86,18 @@ class _AllWorkersScreenState extends State<AllWorkersScreen> {
                       userImageUrl: snapshot.data!.docs[index]['userImage'],
                     );
                   });
+            } else {
+              return Center(
+                child: Text('There is no users'),
+              );
             }
           }
+          return Center(
+            child: Text(
+              'Something went wrong',
+              style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
+            ),
+          );
         },
       ),
     );
