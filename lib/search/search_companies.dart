@@ -23,6 +23,17 @@ class _AllWorkersScreenState extends State<AllWorkersScreen> {
     );
   }
 
+  List<Widget> _buildActions() {
+    return <Widget>[
+      IconButton(
+        onPressed: () {
+          _clearSearchQuery();
+        },
+        icon: const Icon(Icons.clear),
+      ),
+    ];
+  }
+
   void updateSearchQuery(String newQuery) {
     setState(() {
       searchQuery = newQuery;
