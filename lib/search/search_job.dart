@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:linkedin_clone/jobs/jobs_screen.dart';
 
 class SearchScreen extends StatefulWidget {
   @override
@@ -14,7 +15,7 @@ class _SearchScreenState extends State<SearchScreen> {
       controller: _seacrchQueryController,
       autocorrect: true,
       decoration: InputDecoration(
-        hintText: 'Search for companies...',
+        hintText: 'Search for jobs...',
         border: InputBorder.none,
         hintStyle: TextStyle(color: Colors.white30),
       ),
@@ -50,6 +51,19 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white10,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (c) => JobScreen()));
+          },
+          icon: Icon(Icons.arrow_back),
+        ),
+        title: _buildSearchField(),
+        actions: _buildActions(),
+      ),
+    );
   }
 }
