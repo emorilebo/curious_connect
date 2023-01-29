@@ -500,11 +500,11 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin {
   }
 
   void _cropImage(filePath) async {
-    File? croppedImage = await ImageCropper.cropImage(
+    File? croppedImage = (await ImageCropper().cropImage(
       sourcePath: filePath,
       maxHeight: 1080,
       maxWidth: 1080,
-    );
+    )) as File?;
     if (croppedImage != null) {
       setState(() {
         imageFile = croppedImage;
